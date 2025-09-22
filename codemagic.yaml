@@ -1,0 +1,25 @@
+workflows:
+  android-workflow:
+    name: Android Build
+    instance_type: mac_mini_m1   # این روی پلن رایگان در دسترسه
+    environment:
+      vars:
+        JAVA_VERSION: 17
+        ANDROID_SDK_ROOT: /Users/builder/programs/android-sdk-macosx
+
+    scripts:
+      - name: Make gradlew executable
+        script: chmod +x gradlew
+
+      - name: Clean project
+        script: ./gradlew clean
+
+      - name: Build Debug APK
+        script: ./gradlew assembleDebug
+
+      - name: Build Release APK
+        script: ./gradlew assembleRelease
+
+    artifacts:
+      - app/build/outputs/**/*.apk
+      - app/build/outputs/**/*.aab
